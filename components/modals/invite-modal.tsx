@@ -71,6 +71,7 @@ const CreateServerModal = () => {
             </Label>
             <div className="mt-2 flex items-center gap-x-2">
               <Input
+                readOnly
                 disabled={isLoading}
                 className="focus-visible::ring-offset-0 border-0 bg-zinc-300/50 text-black focus-visible:ring-0"
                 value={inviteCode}
