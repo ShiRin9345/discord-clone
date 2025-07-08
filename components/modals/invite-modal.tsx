@@ -15,12 +15,14 @@ import { Check, Copy, RefreshCw } from "lucide-react";
 import { useOrigin } from "@/hooks/use-origin";
 import { useState } from "react";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 
 const CreateServerModal = () => {
   const { onOpen, isOpen, onClose, type, data } = useModal();
   const origin = useOrigin();
   const { server } = data;
   const inviteCode = `${origin}/invite/${server?.inviteCode}`;
+  const router = useRouter();
 
   const [copied, setCopied] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -40,6 +42,7 @@ const CreateServerModal = () => {
         `/api/servers/${server?.id}/invite-code`,
       );
       onOpen("invite", { server: response.data });
+      router.refresh();
     } catch (e) {
       console.log(e);
     } finally {
