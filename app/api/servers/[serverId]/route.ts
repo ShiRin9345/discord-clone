@@ -25,7 +25,30 @@ export async function PATCH(
     });
     return NextResponse.json(server);
   } catch (e) {
-    console.error("SERVER_ID_PATHC", e);
+    console.error("SERVER_ID_PATCH", e);
+    return new NextResponse("Internal Error", { status: 500 });
+  }
+}
+
+export async function DELETE(
+  req: Request,
+  { params }: { params: { serverId: string } },
+) {
+  try {
+    const profile = await currentProfile();
+    if (!profile) {
+      return new NextResponse("Unauthorized", { status: 401 });
+    }
+    const { serverId } = await params;
+    const server = await db.server.delete({
+      where: {
+        id: serverId,
+        profileId: profile.id,
+      },
+    });
+    return NextResponse.json(server);
+  } catch (e) {
+    console.error("SERVER_ID_DELETE", e);
     return new NextResponse("Internal Error", { status: 500 });
   }
 }
