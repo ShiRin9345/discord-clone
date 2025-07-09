@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Search } from "lucide-react";
 import {
   CommandDialog,
@@ -11,7 +11,7 @@ import {
   CommandList,
 } from "@/components/ui/command";
 
-interface SevrerSearchProps {
+interface ServerSearchProps {
   data: {
     label: string;
     type: "channel" | "member";
@@ -25,8 +25,18 @@ interface SevrerSearchProps {
   };
 }
 
-const ServerSearch = ({ data }: SevrerSearchProps) => {
+const ServerSearch = ({ data }: ServerSearchProps) => {
   const [open, setOpen] = useState(false);
+  useEffect(() => {
+    const down = (e: KeyboardEvent) => {
+      if (e.key === "k" && (e.metaKey || e.ctrlKey)) {
+        e.preventDefault();
+        setOpen((open) => !open);
+      }
+    };
+    document.addEventListener("keydown", down);
+    return () => document.removeEventListener("keydown", down);
+  }, []);
 
   return (
     <>
