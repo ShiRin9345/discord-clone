@@ -1,8 +1,9 @@
 "use client";
 
 import { UploadDropzone } from "@/lib/uploadthing";
-import { X } from "lucide-react";
+import { FileIcon, X } from "lucide-react";
 import Image from "next/image";
+import { useState } from "react";
 
 interface FileUploadProps {
   onChange: (url?: string) => void;
@@ -11,8 +12,8 @@ interface FileUploadProps {
 }
 
 const FileUpload = ({ onChange, value, endpoint }: FileUploadProps) => {
-  const fileType = value?.split(".").pop();
-  if (value && fileType !== "pdf") {
+  const [type, setType] = useState("");
+  if (value && type !== "pdf") {
     return (
       <div className="relative h-20 w-20">
         <Image fill src={value} alt="Upload" className="rounded-full" />
@@ -27,11 +28,29 @@ const FileUpload = ({ onChange, value, endpoint }: FileUploadProps) => {
     );
   }
 
+  if (value && type === "pdf") {
+    return (
+      <div className="bg-background/10 relative mt-2 flex items-center rounded-md p-2">
+        <FileIcon className="h-10 w-10 fill-indigo-200 stroke-indigo-400" />
+        <a
+          href={value}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="ml-2 text-sm break-all text-indigo-500 hover:underline dark:text-indigo-400"
+        >
+          {value}
+        </a>
+      </div>
+    );
+  }
+
   return (
     <UploadDropzone
       endpoint={endpoint}
       onClientUploadComplete={(res) => {
         onChange(res?.[0].url);
+        const fileType = res?.[0].name.split(".").pop();
+        setType(fileType as string);
       }}
       onUploadError={(e: Error) => {
         console.error(e);

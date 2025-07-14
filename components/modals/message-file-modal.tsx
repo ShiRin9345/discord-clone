@@ -102,7 +102,7 @@ const MessageFileModal = () => {
               <DialogFooter className="bg-gray-100 px-6 py-4">
                 <Button variant="primary" disabled={isLoading}>
                   Send
-                </Button>{" "}
+                </Button>
                 {/*响应式的*/}
               </DialogFooter>
             </form>
