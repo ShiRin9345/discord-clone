@@ -7,6 +7,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { Plus, Smile } from "lucide-react";
 import { Input } from "@/components/ui/input";
+import qs from "query-string";
+import axios from "axios";
 
 interface ChatInputProps {
   apiUrl: string;
@@ -31,7 +33,15 @@ const ChatInput = ({ apiUrl, query, name, type }: ChatInputProps) => {
   const onSubmit = async (
     values: z.infer<typeof formSchema>,
   ): Promise<void> => {
-    console.log(values);
+    try {
+      const url = qs.stringifyUrl({
+        url: apiUrl,
+        query,
+      });
+      await axios.post(url, values);
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   return (
@@ -54,6 +64,7 @@ const ChatInput = ({ apiUrl, query, name, type }: ChatInputProps) => {
                     disabled={isLoading}
                     className="border-0 border-none bg-zinc-200/90 px-14 py-6 text-zinc-600 focus-visible:ring-0 focus-visible:ring-offset-0 dark:bg-zinc-700/75 dark:text-zinc-200"
                     placeholder={`Message ${type === "conversation" ? name : "#" + name}`}
+                    {...field}
                   />
                   <div className="absolute top-7 right-8">
                     <Smile />
