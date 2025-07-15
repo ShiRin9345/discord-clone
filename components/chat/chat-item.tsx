@@ -154,6 +154,7 @@ export const ChatItem = ({
                 src={fileUrl}
                 alt={content}
                 fill
+                priority
                 className="object-cover"
               />
             </a>
