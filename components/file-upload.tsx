@@ -3,16 +3,22 @@
 import { UploadDropzone } from "@/lib/uploadthing";
 import { FileIcon, X } from "lucide-react";
 import Image from "next/image";
-import { useState } from "react";
 
 interface FileUploadProps {
   onChange: (url?: string) => void;
   value: string;
   endpoint: "messageFile" | "serverImage";
+  type: string;
+  onType: (type: string) => void;
 }
 
-const FileUpload = ({ onChange, value, endpoint }: FileUploadProps) => {
-  const [type, setType] = useState("");
+const FileUpload = ({
+  onChange,
+  value,
+  endpoint,
+  type,
+  onType,
+}: FileUploadProps) => {
   if (value && type !== "pdf") {
     return (
       <div className="relative h-20 w-20">
@@ -49,8 +55,8 @@ const FileUpload = ({ onChange, value, endpoint }: FileUploadProps) => {
       endpoint={endpoint}
       onClientUploadComplete={(res) => {
         onChange(res?.[0].url);
-        const fileType = res?.[0].name.split(".").pop();
-        setType(fileType as string);
+        const fileType = res?.[0].name.split(".").pop() as string;
+        onType(fileType);
       }}
       onUploadError={(e: Error) => {
         console.error(e);

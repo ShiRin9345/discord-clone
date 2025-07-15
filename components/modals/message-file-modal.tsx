@@ -21,19 +21,23 @@ import { useRouter } from "next/navigation";
 import axios from "axios";
 import { useModal } from "@/hooks/use-modal-store";
 import qs from "query-string";
+import { useState } from "react";
 
 const formSchema = z.object({
   fileUrl: z.string().min(1, {
     message: "Attachment is required.",
   }),
 });
-
 const MessageFileModal = () => {
+  const [fileType, setFileType] = useState("");
   const { isOpen, onClose, data, type } = useModal();
   const router = useRouter();
   const isModalOpen = isOpen && type === "messageFile";
   const { apiUrl, query } = data;
 
+  const onType = (type: string) => {
+    setFileType(type);
+  };
   const handleClose = () => {
     form.reset();
     onClose();
@@ -57,6 +61,7 @@ const MessageFileModal = () => {
       await axios.post(url, {
         ...values,
         content: values.fileUrl,
+        fileType,
       });
       form.reset(); // useless
       router.refresh();
@@ -92,6 +97,8 @@ const MessageFileModal = () => {
                             endpoint="messageFile"
                             value={field.value}
                             onChange={field.onChange}
+                            type={fileType}
+                            onType={onType}
                           />
                         </FormControl>
                       </FormItem>
