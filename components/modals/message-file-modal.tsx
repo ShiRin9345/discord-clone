@@ -40,6 +40,7 @@ const MessageFileModal = () => {
   };
   const handleClose = () => {
     form.reset();
+    router.refresh();
     onClose();
   };
 
