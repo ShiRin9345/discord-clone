@@ -121,7 +121,7 @@ export default async function handler(
         },
       });
     }
-    const updateKey = `chat:${conversation.id}}:messages:update`;
+    const updateKey = `chat:${conversation.id}:messages:update`;
     res?.socket?.server?.io?.emit(updateKey, directMessage);
     return res.status(200).json(directMessage);
   } catch (e) {
