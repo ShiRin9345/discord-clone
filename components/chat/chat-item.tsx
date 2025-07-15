@@ -224,14 +224,16 @@ export const ChatItem = ({
           )}
         </div>
       </div>
-      {canDeletedMessage && (
-        <div className="absolute -top-2 right-5 hidden items-center gap-x-2 rounded-sm border bg-white p-1 group-hover:flex dark:bg-zinc-800">
+      <div className="absolute -top-2 right-5 hidden items-center gap-x-2 rounded-sm border bg-white p-1 group-hover:flex dark:bg-zinc-800">
+        {canEditMessage && (
           <ActionTooltip label="Edit">
             <Edit
               onClick={() => setEditing(true)}
               className="ml-auto h-4 w-4 cursor-pointer text-zinc-500 transition hover:text-zinc-600 dark:hover:text-zinc-300"
             />
           </ActionTooltip>
+        )}
+        {canDeletedMessage && (
           <ActionTooltip label="Delete">
             <Trash
               onClick={() =>
@@ -243,8 +245,8 @@ export const ChatItem = ({
               className="ml-auto h-4 w-4 cursor-pointer text-zinc-500 transition hover:text-zinc-600 dark:hover:text-zinc-300"
             />
           </ActionTooltip>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 };
