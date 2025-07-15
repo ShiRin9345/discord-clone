@@ -15,12 +15,13 @@ interface MemberIdProps {
 
 const Page = async ({ params }: MemberIdProps) => {
   const profile = await currentProfile();
+  const { serverId, memberId } = await params;
   if (!profile) {
     redirect("/");
   }
   const currentMember = await db.member.findFirst({
     where: {
-      serverId: params.serverId,
+      serverId: serverId,
       profileId: profile.id,
     },
     include: {
@@ -33,10 +34,10 @@ const Page = async ({ params }: MemberIdProps) => {
 
   const conversation = await getOrCreateConversation(
     currentMember.id,
-    params.memberId,
+    memberId,
   );
   if (!conversation) {
-    redirect(`/servers/${params.serverId}`);
+    redirect(`/servers/${serverId}`);
   }
   const { memberOne, memberTwo } = conversation;
   const otherMember =
@@ -44,7 +45,7 @@ const Page = async ({ params }: MemberIdProps) => {
   return (
     <div className="flex h-full flex-col bg-white dark:bg-[#313338]">
       <ChatHeader
-        serverId={params.serverId}
+        serverId={serverId}
         name={otherMember.profile.name}
         type="conversation"
         imageUrl={otherMember.profile.imageUrl}
@@ -61,7 +62,7 @@ const Page = async ({ params }: MemberIdProps) => {
         type="conversation"
       />
       <ChatInput
-        apiUrl="/"
+        apiUrl="/api/socket/direct-messages"
         name={otherMember.profile.name}
         type="conversation"
         query={{ conversationId: conversation.id }}
