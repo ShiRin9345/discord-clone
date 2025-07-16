@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils";
 import { ModalProvider } from "@/components/providers/modal-provider";
 import { SocketProvider } from "@/components/providers/socket-provider";
 import { QueryProvider } from "@/components/providers/query-provider"; // be careful
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const openSans = Open_Sans({
   variable: "--font-sans",
@@ -37,6 +38,7 @@ export default function RootLayout({
             "bg-white dark:bg-[#313338]",
           )}
         >
+          <SpeedInsights />
           <ThemeProvider
             attribute="class"
             defaultTheme="dark"
