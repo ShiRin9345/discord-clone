@@ -15,21 +15,23 @@ const findConversation = async (memberOneId: string, memberTwoId: string) => {
   try {
     return db.conversation.findFirst({
       where: {
-        AND: {
-          memberOneId: memberOneId,
-          memberTwoId: memberTwoId,
-        },
+        OR: [
+          {
+            memberOneId: memberOneId,
+            memberTwoId: memberTwoId,
+          },
+          {
+            memberOneId: memberTwoId,
+            memberTwoId: memberOneId,
+          },
+        ],
       },
       include: {
         memberOne: {
-          include: {
-            profile: true,
-          },
+          include: { profile: true },
         },
         memberTwo: {
-          include: {
-            profile: true,
-          },
+          include: { profile: true },
         },
       },
     });
