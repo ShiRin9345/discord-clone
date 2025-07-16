@@ -20,6 +20,7 @@ interface MemberIdProps {
 const Page = async ({ params, searchParams }: MemberIdProps) => {
   const profile = await currentProfile();
   const { serverId, memberId } = await params;
+  const { video } = await searchParams;
   if (!profile) {
     redirect("/");
   }
@@ -54,10 +55,10 @@ const Page = async ({ params, searchParams }: MemberIdProps) => {
         type="conversation"
         imageUrl={otherMember.profile.imageUrl}
       />
-      {searchParams.video && (
+      {video && (
         <MediaRoom chatId={conversation.id} video={true} audio={true} />
       )}
-      {!searchParams.video && (
+      {!video && (
         <>
           <ChatMessages
             name={otherMember.profile.name}
