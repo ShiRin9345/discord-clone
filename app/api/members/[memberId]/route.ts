@@ -2,7 +2,6 @@ import currentProfile from "@/lib/current-profile";
 import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
 
-// @ts-ignore
 export async function PATCH(req: Request, { params }) {
   try {
     const profile = await currentProfile();

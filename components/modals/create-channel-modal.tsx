@@ -6,7 +6,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
@@ -24,7 +23,6 @@ import {
 
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import FileUpload from "@/components/file-upload";
 import { useParams, useRouter } from "next/navigation";
 import axios from "axios";
 import { useModal } from "@/hooks/use-modal-store";
